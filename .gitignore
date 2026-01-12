@@ -1,0 +1,34 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[xX]64/
+[xX]86/
+bin/
+obj/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNet CLI
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Sensitive configuration
+appsettings.json
