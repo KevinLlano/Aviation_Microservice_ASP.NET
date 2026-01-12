@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace training_service.model
 {
-    [Table("courses")]
-    public class Course
+    [Table("lessons")]
+    public class Lesson
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,23 +14,22 @@ namespace training_service.model
         [Required]
         public string Title { get; set; }
 
-        [MaxLength(1000)]
+        [MaxLength(2000)]
         public string Description { get; set; }
 
-        [Column("course_code")]
-        // [Index(IsUnique = true)] // For EF Core 7+, otherwise use Fluent API
-        public string CourseCode { get; set; }
+        [Column("lesson_number")]
+        public int? LessonNumber { get; set; }
 
-        [Column("duration_hours")]
-        public int? DurationHours { get; set; }
+        [Column("duration_minutes")]
+        public int? DurationMinutes { get; set; }
 
-        public string Level { get; set; }
+        [Column("type")]
+        public LessonType? Type { get; set; }
 
-        public string Category { get; set; }
+        public string Content { get; set; }
 
-        public decimal? Price { get; set; }
-
-        public bool IsActive { get; set; } = true;
+        [Column("is_mandatory")]
+        public bool IsMandatory { get; set; } = true;
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -39,13 +37,10 @@ namespace training_service.model
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Many courses can be taught by one instructor
-        [ForeignKey("InstructorId")]
-        public long? InstructorId { get; set; }
-        public Instructor Instructor { get; set; }
-
-        // One course can have many lessons
-        public List<Lesson> Lessons { get; set; } = new();
+        // Many lessons belong to one course
+        [ForeignKey("CourseId")]
+        public long CourseId { get; set; }
+        public Course Course { get; set; }
 
         // Set timestamps
         public void OnCreate()
@@ -58,5 +53,14 @@ namespace training_service.model
         {
             UpdatedAt = DateTime.UtcNow;
         }
+    }
+
+    public enum LessonType
+    {
+        THEORY,
+        PRACTICAL,
+        SIMULATOR,
+        ASSESSMENT,
+        GROUND_SCHOOL
     }
 }
