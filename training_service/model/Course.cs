@@ -19,7 +19,7 @@ namespace training_service.model
         public string Description { get; set; }
 
         [Column("course_code")]
-        // [Index(IsUnique = true)] // For EF Core 7+, otherwise use Fluent API
+        
         public string CourseCode { get; set; }
 
         [Column("duration_hours")]

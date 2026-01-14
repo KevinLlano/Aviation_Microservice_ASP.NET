@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using training_service.model;
+using training_service.model;       
 using training_service.service;
 
 namespace training_service.Controller

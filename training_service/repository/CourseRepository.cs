@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using training_service.model;
-using Microsoft.EntityFrameworkCore;
+﻿using training_service.model;
 
 namespace training_service.repository
 {
@@ -14,8 +10,41 @@ namespace training_service.repository
         {
             _context = context;
         }
+        public async Task<List<Course>> GetAllAsync()
+        {
+            return await _context.Courses.ToListAsync();
+        }
 
-        public async Task<Course> FindByCourseCodeAsync(string courseCode)
+        // Get course by ID
+        public async Task<Course> GetByIdAsync(long id)
+        {
+            return await _context.Courses.FindAsync(id);
+        }
+
+        // Add a new course
+        public async Task<Course> AddAsync(Course course)
+        {
+            _context.Courses.Add(course);
+            await _context.SaveChangesAsync();
+            return course;
+        }
+
+        // Update an existing course
+        public async Task<Course> UpdateAsync(Course course)
+        {
+            _context.Courses.Update(course);
+            await _context.SaveChangesAsync();
+            return course;
+        }
+
+        // Delete a course
+        public async Task DeleteAsync(Course course)
+        {
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
+        }
+
+public async Task<Course> FindByCourseCodeAsync(string courseCode)
         {
             return await _context.Courses
                 .FirstOrDefaultAsync(c => c.CourseCode == courseCode);
