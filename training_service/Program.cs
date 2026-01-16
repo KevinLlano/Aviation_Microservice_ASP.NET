@@ -11,8 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Register DbContext with database connection
-builder.Services.AddDbContext<TrainingDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+if (builder.Configuration.GetValue<bool>("UseInMemoryDatabase"))
+{
+    builder.Services.AddDbContext<TrainingDbContext>(options =>
+        options.UseInMemoryDatabase("TrainingDb"));
+}
+else
+{
+    builder.Services.AddDbContext<TrainingDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 // Register repositories
 builder.Services.AddScoped<CourseRepository>();
@@ -26,13 +34,13 @@ builder.Services.AddScoped<LessonService>();
 
 builder.Services.AddApiSecurity(); // Add API security configuration
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// sample data for development mode purposes
+// sample data for development purposes
 if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
@@ -43,7 +51,7 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-// Configure the HTTP request pipeline.
+// swagger testing
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

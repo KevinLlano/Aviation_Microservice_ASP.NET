@@ -42,7 +42,7 @@ namespace training_service.model
         // Many courses can be taught by one instructor
         [ForeignKey("InstructorId")]
         public long? InstructorId { get; set; }
-        public Instructor Instructor { get; set; }
+        public Instructor? Instructor { get; set;}
 
         // One course can have many lessons
         public List<Lesson> Lessons { get; set; } = new();

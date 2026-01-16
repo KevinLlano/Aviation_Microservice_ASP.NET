@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using training_service.model;
+using training_service.data;
 using Microsoft.EntityFrameworkCore;
 
 namespace training_service.repository
@@ -15,6 +16,38 @@ namespace training_service.repository
             _context = context;
         }
 
+        // CRUD Methods
+        public async Task<List<Instructor>> GetAllAsync()
+        {
+            return await _context.Instructors.ToListAsync();
+        }
+
+        public async Task<Instructor> GetByIdAsync(long id)
+        {
+            return await _context.Instructors.FindAsync(id);
+        }
+
+        public async Task<Instructor> AddAsync(Instructor instructor)
+        {
+            _context.Instructors.Add(instructor);
+            await _context.SaveChangesAsync();
+            return instructor;
+        }
+
+        public async Task<Instructor> UpdateAsync(Instructor instructor)
+        {
+            _context.Instructors.Update(instructor);
+            await _context.SaveChangesAsync();
+            return instructor;
+        }
+
+        public async Task DeleteAsync(Instructor instructor)
+        {
+            _context.Instructors.Remove(instructor);
+            await _context.SaveChangesAsync();
+        }
+
+        // Custom Queries
         public async Task<Instructor> FindByEmailAsync(string email)
         {
             return await _context.Instructors

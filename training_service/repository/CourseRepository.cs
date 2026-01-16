@@ -1,4 +1,6 @@
 ﻿using training_service.model;
+using training_service.data;
+using Microsoft.EntityFrameworkCore;
 
 namespace training_service.repository
 {
